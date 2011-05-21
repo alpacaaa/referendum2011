@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="it">
+	<head>
+		<meta charset="utf-8" />
+		<title>Referendum 2011 - Io voto</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="http://vadoavotare.appspot.com/assets/css/1140.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="http://vadoavotare.appspot.com/assets/css/style.css" type="text/css" media="screen" />
+	</head>
+	<body class="io-voto">
+		<div class="container">
+			<header class="row">
+				<h1>
+
+					Referendum 20<span>11</span>
+					<div class="andrai">Andrai a votare?</div>
+					<div class="quando">12-13 Giugno</div>
+				</h1>
+
+			</header>
+			<section class="row quesiti">
+				<ul>
+
+					<li>
+						<h2>1. Acqua Pubblica <span>(i)</span></h2>
+						<h3>Abrogazione art. 23 bis</h3>
+	
+						<div class="details">
+							<h5>Comma 5</h5>
+							<p>
+								Ferma restando la proprietà pubblica delle reti, la loro <span>gestione</span> può essere <span>affidata</span> a soggetti <span>privati</span>.
+							</p>
+						</div>
+
+						<div class="agree">
+							<p>Sei favorevole all'abrogazione?</p>
+							<span class="sixcol" data="yes">Si</span>
+							<span class="sixcol last" data="no">No</span>
+						</div>
+					</li>
+
+					<li>
+						<h2>2. Acqua Pubblica <span>(ii)</span></h2>
+						<h3>Abrogazione art. 154</h3>
+
+						<div class="details">
+							<h5>Comma 1</h5>
+							<p>
+								La <span>tariffa</span> costituisce il corrispettivo del servizio idrico ed è determinata [...] in modo che sia <span>assicurata</span> la <span>copertura integrale</span> dei costi di investimento e di esercizio.
+							</p>
+						</div>
+
+						<div class="agree">
+							<p>Sei favorevole all'abrogazione?</p>
+							<span class="sixcol" data="yes">Si</span>
+							<span class="sixcol last" data="no">No</span>
+						</div>
+					</li>
+
+					<li>
+						<h2>3. Centrali nucleari</h2>
+						<h3>Abrogazione decreto legge 25 giugno 2008</h3>
+						
+						<div class="details">
+							<h5>Art. 7 comma 1-d</h5>
+							<p>
+								Realizzazione nel territorio nazionale di <span>impianti</span> di produzione di <span>energia nucleare</span>.
+							</p>
+						</div>
+
+						<div class="agree">
+							<p>Sei favorevole all'abrogazione?</p>
+							<span class="sixcol" data="yes">Si</span>
+							<span class="sixcol last" data="no">No</span>
+						</div>
+						<!-- <div class="referer">
+							<strong>Riccardino Fuffolo</strong> voterà si.
+						</div> -->
+					</li>
+
+					<li>
+						<h2>4. Legittimo impedimento</h2>
+						<h3>Abrogazione legge 7 aprile 2010</h3>
+						
+						<div class="details">
+							<h5>Art. 1 comma 1</h5>
+							<p>
+								Il <span>presidente del consiglio</span> dei ministri può invocare il <span>legittimo impedimento</span> a comparire in un'<span>udienza penale</span>.
+							</p>
+						</div>
+
+						<div class="agree">
+							<p>Sei favorevole all'abrogazione?</p>
+							<span class="sixcol" data="yes">Si</span>
+							<span class="sixcol last" data="no">No</span>
+						</div>
+					</li>
+
+				</ul>
+			</section>
+
+			<section id="share" class="row">
+				<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fio.vadoavotare.it&amp;t=Voto al referendum di giugno." class="fb">
+					Condividi il tuo <span>voto</span>
+				</a>
+			</section>
+
+			<section id="feedback" class="row">
+				<h4>Lascia un commento</h4>
+				
+			</section>
+
+		</div>
+
+		<footer>
+			<section class="row">
+				<p>E che cazzo, andate a votare.</p>
+				<p class="credits">
+					<a href="http://github.com/alpacaaa/referendum2011/">source code</a><!--  - 
+					<a href="http://sixrevisions.com/freebies/icons/free-social-media-icons-for-designers-a-life-in-pixels">
+						A Life in Pixels Icons
+					</a> -->
+				</p>
+			</section>
+		</footer>
+		
+		<div id="fb-root"></div>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+		<script>
+
+			(function() {
+				var e = document.createElement('script');
+				e.type = 'text/javascript';
+				e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+				e.async = true;
+				document.getElementById('fb-root').appendChild(e);
+			}());
+		  
+			window.fbAsyncInit = function() {
+				FB.init({
+					appId: '{{ facebook_app_id }}',
+					status: true,
+					cookie: true,
+					xfbml: true
+				});
+				
+				jQuery(function($){
+					var user = $('#user').text();
+					if (!user) return;
+
+					$.getJSON(location.href, function(votes){
+						if (votes == null) return;
+						
+						var votes = votes.split(',');
+
+						FB.api('/' + user, function(data){
+							$('.agree').each(function(i){
+								$(this).after([
+									'<div class="referer">',
+									'<strong>' + data.name + '</strong> voterà ',
+									it(votes[i]),
+									'</div>'
+								].join(''));
+							});
+							
+							function it(k){ return k == 'no' ? k : 'si'; }
+						});
+					});
+				});
+			};
+		</script>
+
+		<script>
+			jQuery(function($){
+				var questions = $('.agree');
+
+				questions.find('span').click(function(){
+					$(this).addClass('selected')
+						.siblings('span').removeClass('selected');
+				});
+
+				$('#share .fb').click(function(e){
+					e.preventDefault();
+
+					FB.getLoginStatus(function(response){
+					
+						var cb = function(response){
+							if (!response.session) return;
+							var data = [];
+
+							questions.each(function(){
+								var el = $(this).find('.selected');
+								if (!el.length) return;
+
+								data.push(el.attr('data'));
+							});
+
+							if (data.length !== questions.length)
+								return alert('Rispondi a tutti i quesiti!');
+
+							var data = {
+								votes: data.join(',')
+							};
+
+							$.post(location.href, data, function(id){
+								FB.ui({
+									method: 'feed',
+									link: 'http://io.vadoavotare.it/' + id,
+									name: 'Voto al referendum di giugno.',
+									description: 'E se andassi anche tu, non sarebbe male :)'
+								}, function(res){
+									
+									alert('Grazie per il tuo tempo ;)');
+								});
+							});
+						};
+						
+						if (response.session)
+							return cb(response);
+
+						FB.login(cb);
+					});
+
+				});
+			});
+		</script>
+		
+		{% if user %}<span id="user">{{ user }}</span>{% endif %}
+	</body>
+</html>
